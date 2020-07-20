@@ -1,0 +1,134 @@
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Speedtest.net CSV Mapper</title>
+        <link href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css" rel="stylesheet">
+        <link href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" rel="stylesheet">
+        <!-- <link href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" rel="stylesheet"> -->
+        <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@900&family=Open+Sans:ital,wght@0,600;0,800;1,400&display=swap" rel="stylesheet"> 
+        <link href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" rel="stylesheet">
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+            }
+
+            body {
+                font-family: 'Open Sans', sans-serif;
+                font-weight: 400;
+            }
+
+            div#yeahyeahyeahs {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+            }
+
+            header {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                padding: 8px;
+                z-index: 999;
+                background-color: #fff;
+                border-top-right-radius: 8px;
+            }
+
+            header input[type='file'] {
+                width: 100%;
+                margin: 4px 0;
+                padding: 4px;
+                background-color: #ccc;
+                border-radius: 4px;
+                font-family: inherit;
+                text-align: center;
+            }
+
+            header p {
+                font-size: 0.8em;
+            }
+
+            footer {
+                position: fixed;
+                top: 0;
+                right: 0;
+                padding: 4px;
+                z-index: 999;
+                background-color: #fff;
+                border-bottom-left-radius: 8px;
+                font-size: 0.8em;
+            }
+
+            footer a {
+                color: darkblue;
+                text-decoration: none;
+            }
+
+            footer a:hover {
+                text-decoration: underline;
+            }
+
+            .marker-inner i {
+                color: #009;
+            }
+
+            /* isp name */
+            .marker-inner h1 {
+                font-weight: 800;
+            }
+            .marker-inner h1 img {
+                height: 1em;
+                margin-right: 8px;
+            }
+            /* ping/speeds and date */
+            .marker-inner h2, .marker-inner h2 {
+                font-weight: 600;
+            }
+
+            .marker-inner span.smol {
+                display: block;
+                padding-left: 2.5em;
+                font-size: 0.6em;
+                color: #555;
+                font-weight: 400;
+            }
+
+            .marker-inner span.mono {
+                font-size: 1.5em;
+                font-family: 'Inconsolata', monospace;
+            }
+
+            /* .marker-cluster {
+                background-color: #fff;
+                width: 50px;
+                height: 50px;
+                border-radius: 8px;
+                text-align: center;
+                padding: 8px;
+            } */
+        </style>
+    </head>
+
+    <body>
+        <header id="header">
+            <h2>Speedtest.net CSV Mapper</h2>
+            <input type="file" onchange="loadFile(this); this.style.display = 'none';" accept="text/csv" multiple="no" autocomplete="off">
+            <!-- <label><input type="checkbox" onchange="clustered = this.checked" onload="let clustered = true;" checked="no"> Group Clusters</label> -->
+            <p><b>Status: </b> <span id="js-status">waiting for file</span></p>
+        </header>
+
+        <div id="yeahyeahyeahs"></div>
+
+        <footer>
+            <p><a href="https://tomr.me">TomR.me</a></p>
+        </footer>
+    </body>
+
+    <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"></script>
+    <!-- <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script> -->
+    <script src="map.js"></script>
+    <script src="fileloader.js"></script>
+    <script src="csvreader.js"></script>
+</html>
