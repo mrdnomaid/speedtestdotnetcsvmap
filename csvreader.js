@@ -36,12 +36,11 @@ function readCsv(csv) {
         if(!lat || !lon) continue;
         
         // ios safari is a sped
-        if(iOS) {
-            let dateStr = date.toString();
-        } else {
+        let dateStr = date;
+        if(!iOS) {
             let dateObj = new Date(date);
-            let dateStr = `${getOrdinalNum(dateObj.getDate())} ${dateObj.toLocaleString('default', { month: 'long' })} ${dateObj.getFullYear()}`;
-        }
+            dateStr = `${getOrdinalNum(dateObj.getDate())} ${dateObj.toLocaleString('default', { month: 'long' })} ${dateObj.getFullYear()}`;
+       }
 
         let marker = L.marker([lat, lon],{icon:genIcon(isp)}).addTo(map).bindPopup(`
         <div class="marker-inner">
