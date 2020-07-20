@@ -130,10 +130,10 @@
             <h2>Speedtest.net CSV Mapper</h2>
             <input type="file" onchange="loadFile(this); this.style.display = 'none';" accept="text/csv" multiple="no" autocomplete="off">
             <!-- <label><input type="checkbox" onchange="clustered = this.checked" onload="let clustered = true;" checked="no"> Group Clusters</label> -->
-            <fieldset id="radios">
-                <label onclick="useOSM()"><input type="radio" name="tileset"> OpenStreetMap</label>
-                <label onclick="useCarto()"><input type="radio" name="tileset"> Carto Dark</label>
-                <label onclick="useCartoVoyager()"><input type="radio" name="tileset"> Carto Voyager</label>
+            <fieldset id="radios" autocomplete="off">
+                <label onclick="useOSM()"><input type="radio" name="tileset" checked="checked" autocomplete="off"> OpenStreetMap</label>
+                <label onclick="useCarto()"><input type="radio" name="tileset" autocomplete="off"> Carto Dark</label>
+                <label onclick="useCartoVoyager()"><input type="radio" name="tileset" autocomplete="off"> Carto Voyager</label>
             </fieldset>
             <p><b>Status: </b> <span id="js-status">waiting for file</span></p>
         </header>
