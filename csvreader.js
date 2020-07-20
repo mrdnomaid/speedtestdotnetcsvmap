@@ -34,8 +34,14 @@ function readCsv(csv) {
         let ping = cols[9];
 
         if(!lat || !lon) continue;
-
-        let dateObj = new Date(date);
+        
+        // ios safari is a sped
+        if(/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream) { // https://stackoverflow.com/a/9039885
+            let dateStr = date.toString();
+        } else {
+            let dateObj = new Date(date);
+            let dateStr = `${getOrdinalNum(dateObj.getDate())} ${dateObj.toLocaleString('default', { month: 'long' })} ${dateObj.getFullYear()}`;
+        }
 
         let marker = L.marker([lat, lon],{icon:genIcon(isp)}).addTo(map).bindPopup(`
         <div class="marker-inner">
@@ -43,7 +49,7 @@ function readCsv(csv) {
             <h2><i class="fas fa-fw fa-caret-down"></i> <span class="mono">${parseFloat(downSpeed / 1000).toFixed(2)}</span>Mbps <span class="smol">${parseInt((downUsed / 1024) / 1024)}MB used</span></h2>
             <h2><i class="fas fa-fw fa-caret-up"></i> <span class="mono">${parseFloat(upSpeed / 1000).toFixed(2)}</span>Mbps <span class="smol">${parseInt((upUsed / 1024) / 1024)}MB used</span></h2>
             <h2><i class="fas fa-fw fa-table-tennis"></i> <span class="mono">${ping}</span>ms</h2>
-            <h3 style="margin-top: 8px;"><i class="fas fa-fw fa-calendar-day"></i> ${getOrdinalNum(dateObj.getDate())} ${dateObj.toLocaleString('default', { month: 'long' })} ${dateObj.getFullYear()}</h3>
+            <h3 style="margin-top: 8px;"><i class="fas fa-fw fa-calendar-day"></i> ${dateStr}</h3>
         </div>
         `);
 
