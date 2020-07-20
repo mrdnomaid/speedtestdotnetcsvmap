@@ -36,9 +36,8 @@ function readCsv(csv) {
         if(!lat || !lon) continue;
         
         // ios safari is a sped
-        if(navigator.userAgent.includes('iPhone') || navigator.userAgent.includes('iPod') || navigator.userAgent.includes('AppleWebKit')) {
+        if(iOS) {
             let dateStr = date.toString();
-            alert('Safari has some issues with map tiles and displaying dates. For a better experience, try using a desktop browser.');
         } else {
             let dateObj = new Date(date);
             let dateStr = `${getOrdinalNum(dateObj.getDate())} ${dateObj.toLocaleString('default', { month: 'long' })} ${dateObj.getFullYear()}`;
