@@ -38,6 +38,7 @@ function readCsv(csv) {
         // ios safari is a sped
         if(/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream) { // https://stackoverflow.com/a/9039885
             let dateStr = date.toString();
+            alert('iOS Safari has some issues with map tiles and displaying dates. For a better experience, try using a desktop browser.');
         } else {
             let dateObj = new Date(date);
             let dateStr = `${getOrdinalNum(dateObj.getDate())} ${dateObj.toLocaleString('default', { month: 'long' })} ${dateObj.getFullYear()}`;
