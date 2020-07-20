@@ -36,9 +36,9 @@ function readCsv(csv) {
         if(!lat || !lon) continue;
         
         // ios safari is a sped
-        if(/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream) { // https://stackoverflow.com/a/9039885
+        if(navigator.userAgent.includes('iPhone') || navigator.userAgent.includes('iPod') || navigator.userAgent.includes('AppleWebKit')) {
             let dateStr = date.toString();
-            alert('iOS Safari has some issues with map tiles and displaying dates. For a better experience, try using a desktop browser.');
+            alert('Safari has some issues with map tiles and displaying dates. For a better experience, try using a desktop browser.');
         } else {
             let dateObj = new Date(date);
             let dateStr = `${getOrdinalNum(dateObj.getDate())} ${dateObj.toLocaleString('default', { month: 'long' })} ${dateObj.getFullYear()}`;
