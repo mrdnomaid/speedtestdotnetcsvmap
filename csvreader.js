@@ -74,8 +74,9 @@ function readCsv(csv) {
 
 
 function ispLogo(isp, black) {
-    let url = 'isps/mast_white.png';
-    if(black) url = 'isps/mast.png';
+    let url = 'isps/mast.png';
+    // let url = 'isps/mast_white.png';
+    // if(black) url = 'isps/mast.png';
 
     isp = isp.toLowerCase();
 
@@ -84,8 +85,9 @@ function ispLogo(isp, black) {
     if(isp.includes('ee') || isp.includes('orange') || isp.includes('bt')) url = 'isps/cell/ee_border.png';
     if(isp.includes('three') || isp.includes('3') || isp.includes('smarty')) url = 'isps/cell/3_border.png';
 
-    if(isp.includes('ssid')) url = 'isps/wifi_white.png';
-    if(isp.includes('ssid') && black) url = 'isps/wifi.png';
+    if(isp.includes('ssid')) url = 'isps/wifi.png';
+    // if(isp.includes('ssid')) url = 'isps/wifi_white.png';
+    // if(isp.includes('ssid') && black) url = 'isps/wifi.png';
 
 
     return url;
