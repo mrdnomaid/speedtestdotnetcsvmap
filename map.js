@@ -1,5 +1,8 @@
 let mapDiv = document.getElementById('yeahyeahyeahs');
-let map = L.map('yeahyeahyeahs').fitWorld();
+let map = L.map('yeahyeahyeahs', {
+    center: [52.43, -1.64], // meriden post office
+    zoom: 6
+});
 
 let iOS = false;
 if(navigator.userAgent.includes('iPhone') || navigator.userAgent.includes('iPod') || navigator.userAgent.includes('AppleWebKit')) {
