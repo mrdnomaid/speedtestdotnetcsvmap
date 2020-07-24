@@ -32,6 +32,9 @@ function readCsv(csv) {
         let upSpeed = cols[7];
         let upUsed = cols[8]; // in bytes
         let ping = cols[9];
+        let serverLoc = cols[10];
+        let intIP = cols[11];
+        let extIP = cols[12];
 
         if(!lat || !lon) continue;
         
@@ -48,6 +51,11 @@ function readCsv(csv) {
             <h2><i class="fas fa-fw fa-caret-down"></i> <span class="mono">${parseFloat(downSpeed / 1000).toFixed(2)}</span>Mbps <span class="smol">${parseInt((downUsed / 1024) / 1024)}MB used</span></h2>
             <h2><i class="fas fa-fw fa-caret-up"></i> <span class="mono">${parseFloat(upSpeed / 1000).toFixed(2)}</span>Mbps <span class="smol">${parseInt((upUsed / 1024) / 1024)}MB used</span></h2>
             <h2><i class="fas fa-fw fa-table-tennis"></i> <span class="mono">${ping}</span>ms</h2>
+            <h2 style="margin-top: 8px;">
+                <i class="fas fa-fw fa-server"></i> ${serverLoc.replace(/\"/g, '')}
+                <span class="smol">Int IP: <span class="mono">${intIP.replace(/\"/g, '')}</span></span>
+                <span class="smol">Ext IP: <span class="mono">${extIP.replace(/\"/g, '')}</span></span>
+            </h2>
             <h3 style="margin-top: 8px;"><i class="fas fa-fw fa-calendar-day"></i> ${dateStr}</h3>
         </div>
         `);
