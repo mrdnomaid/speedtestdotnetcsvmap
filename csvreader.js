@@ -37,6 +37,32 @@ function readCsv(csv) {
         let extIP = cols[12];
 
         if(!lat || !lon) continue;
+
+        let transit = false;
+        if(isp.toLowerCase().includes('ssid')) {
+            let ispLowerCase = isp.toLowerCase();
+            if(
+                ispLowerCase.includes('train')
+                || ispLowerCase.includes('bus') // nx busses
+                || ispLowerCase.includes('loop') // london midland/west mids trains
+                || ispLowerCase.includes('avanti') // avanti west coast
+                || ispLowerCase.includes('atw') // arriva trains wales
+                || ispLowerCase.includes('transport') // transport for wales/xyz
+                || ispLowerCase.includes('national') // nx coaches
+                || ispLowerCase.includes('first') // first in certain regions
+                || ispLowerCase.includes('arriva') // arriva sapphire
+                || ispLowerCase.includes('stagecoach') // stagecoach gold
+                || ispLowerCase.includes('chiltern') // chiltern railways
+                || ispLowerCase.includes('grand') // grand central trains
+                || ispLowerCase.includes('southern') // southern trains
+                || ispLowerCase.includes('lner') // london northeastern railway
+                || ispLowerCase.includes('gwr') // great western railway
+                || ispLowerCase.includes('rail') // scotrail/xyzrail
+            ) {
+                transit = true;
+                type = 'Wi-Fi on Public Transport?';
+            }
+        }
         
         // ios safari is a sped
         let dateStr = date;
@@ -45,9 +71,9 @@ function readCsv(csv) {
             dateStr = `${getOrdinalNum(dateObj.getDate())} ${dateObj.toLocaleString('default', { month: 'long' })} ${dateObj.getFullYear()}`;
        }
 
-        let marker = L.marker([lat, lon],{icon:genIcon(isp)}).addTo(map).bindPopup(`
+        let marker = L.marker([lat, lon],{icon:genIcon(isp,transit)}).addTo(map).bindPopup(`
         <div class="marker-inner">
-            <h1 title="Info"><span class="smol" style="padding-left: 0; margin-bottom: 8px;">${type} &bull; ${dateStr}</span> <img src="${ispLogo(isp, true)}"> ${isp.replace('SSID: ', '').replace(/\"/g, '')}</h1>
+            <h1 title="Info"><span class="smol" style="padding-left: 0; margin-bottom: 8px;">${type} &bull; ${dateStr}</span> <img src="${ispLogo(isp, true, transit)}"> ${isp.replace('SSID: ', '').replace(/\"/g, '')}</h1>
             <h2 title="Download Speed"><i class="fas fa-fw fa-caret-down"></i> <span class="mono">${parseFloat(downSpeed / 1000).toFixed(2)}</span>Mbps <span class="smol">${parseInt((downUsed / 1024) / 1024)}MB used</span></h2>
             <h2 title="Upload Speed"><i class="fas fa-fw fa-caret-up"></i> <span class="mono">${parseFloat(upSpeed / 1000).toFixed(2)}</span>Mbps <span class="smol">${parseInt((upUsed / 1024) / 1024)}MB used</span></h2>
             <h2 title="Latency (Ping)"><i class="fas fa-fw fa-table-tennis"></i> <span class="mono">${ping}</span>ms</h2>
@@ -80,7 +106,7 @@ function readCsv(csv) {
 
 
 
-function ispLogo(isp, black) {
+function ispLogo(isp, black, transit) {
     let url = 'isps/mast.png';
     // let url = 'isps/mast_white.png';
     // if(black) url = 'isps/mast.png';
@@ -92,7 +118,14 @@ function ispLogo(isp, black) {
     if(isp.includes('ee') || isp.includes('orange') || isp.includes('bt') || isp.includes('zevvle')) url = 'isps/cell/ee_border.png';
     if(isp.includes('three') || isp.includes('3') || isp.includes('smarty')) url = 'isps/cell/3_border.png';
 
-    if(isp.includes('ssid')) url = 'isps/wifi.png';
+    if(isp.includes('ssid')) {
+        if(transit) {
+            url = 'isps/train_wifi.png';
+        } else {
+            url = 'isps/wifi.png';
+        }
+    };
+    
     // if(isp.includes('ssid')) url = 'isps/wifi_white.png';
     // if(isp.includes('ssid') && black) url = 'isps/wifi.png';
 
@@ -100,13 +133,13 @@ function ispLogo(isp, black) {
     return url;
 }
 
-function genIcon(isp) {
-    let url = ispLogo(isp);
+function genIcon(isp, transit) {
+    let url = ispLogo(isp, false, transit);
 
     return L.icon({
         iconUrl: `${url}`,
         iconRetinaUrl: `${url}`,
-        iconSize: [20, 20],
+        iconSize: [24, 24],
         popupAnchor: [0, -5],
     });
 }
