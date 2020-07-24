@@ -60,7 +60,7 @@ function readCsv(csv) {
                 || ispLowerCase.includes('rail') // scotrail/xyzrail
             ) {
                 transit = true;
-                type = 'Wi-Fi on Public Transport?';
+                type = 'On-Vehicle Wi-Fi';
             }
         }
         
