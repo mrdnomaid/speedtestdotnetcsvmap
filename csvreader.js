@@ -47,16 +47,15 @@ function readCsv(csv) {
 
         let marker = L.marker([lat, lon],{icon:genIcon(isp)}).addTo(map).bindPopup(`
         <div class="marker-inner">
-            <h1><img src="${ispLogo(isp, true)}"> ${isp.replace('SSID: ', '').replace(/\"/g, '')} <span class="smol" style="padding-left: 0;">${type}</span></h1>
-            <h2><i class="fas fa-fw fa-caret-down"></i> <span class="mono">${parseFloat(downSpeed / 1000).toFixed(2)}</span>Mbps <span class="smol">${parseInt((downUsed / 1024) / 1024)}MB used</span></h2>
-            <h2><i class="fas fa-fw fa-caret-up"></i> <span class="mono">${parseFloat(upSpeed / 1000).toFixed(2)}</span>Mbps <span class="smol">${parseInt((upUsed / 1024) / 1024)}MB used</span></h2>
-            <h2><i class="fas fa-fw fa-table-tennis"></i> <span class="mono">${ping}</span>ms</h2>
-            <h2 style="margin-top: 8px;">
-                <i class="fas fa-fw fa-server"></i> ${serverLoc.replace(/\"/g, '')}
+            <h1 title="Info"><span class="smol" style="padding-left: 0; margin-bottom: 8px;">${type} &bull; ${dateStr}</span> <img src="${ispLogo(isp, true)}"> ${isp.replace('SSID: ', '').replace(/\"/g, '')}</h1>
+            <h2 title="Download Speed"><i class="fas fa-fw fa-caret-down"></i> <span class="mono">${parseFloat(downSpeed / 1000).toFixed(2)}</span>Mbps <span class="smol">${parseInt((downUsed / 1024) / 1024)}MB used</span></h2>
+            <h2 title="Upload Speed"><i class="fas fa-fw fa-caret-up"></i> <span class="mono">${parseFloat(upSpeed / 1000).toFixed(2)}</span>Mbps <span class="smol">${parseInt((upUsed / 1024) / 1024)}MB used</span></h2>
+            <h2 title="Latency (Ping)"><i class="fas fa-fw fa-table-tennis"></i> <span class="mono">${ping}</span>ms</h2>
+            <h2 style="margin-top: 8px;" title="Server">
+                <i class="fas fa-fw fa-arrows-alt-h"></i> ${serverLoc.replace(/\"/g, '')}
                 <span class="smol">Int IP: <span class="mono">${intIP.replace(/\"/g, '')}</span></span>
                 <span class="smol">Ext IP: <span class="mono">${extIP.replace(/\"/g, '')}</span></span>
             </h2>
-            <h3 style="margin-top: 8px;"><i class="fas fa-fw fa-calendar-day"></i> ${dateStr}</h3>
         </div>
         `);
 
