@@ -9,6 +9,13 @@ async function doIpInfo(markerId, ipAddr) {
 }
 
 function ipInfoCallback(data) {
+    if(data.error) {
+        return document.getElementById(`marker-${currentId}-ipinfo`).innerHTML = `
+            <a href="https://ipinfo.io/${data.ip}">ipinfo.io</a> API error:<br>
+            ${data.error.title} &mdash; ${data.error.message}
+        `;
+    }
+
     let hostname = data.hostname;
     if(!data.hostname) hostname = 'no hostname';
     
@@ -18,6 +25,6 @@ function ipInfoCallback(data) {
         ${data.postal}, ${data.city}, ${data.region}, ${data.country}<br>
         Data from <a href="https://ipinfo.io/${data.ip}">ipinfo.io</a>
     `;
-    
+
     currentId = '';
 }
