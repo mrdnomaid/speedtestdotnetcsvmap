@@ -14,6 +14,20 @@ function readCsv(csv) {
         let markers = [];
     // }
 
+    let averageSpeeds = {};
+
+    document.getElementById('js-averages').innerHTML = '';
+    let averageTableHTML  = `
+        <thead>
+            <tr>
+                <th>ISP &amp; Conn Type</th>
+                <th>Avg Dwn</th>
+                <th>Avg Up</th>
+            </tr>
+        </thead>
+        <tbody>
+    `;
+
     let i = -1;
     for(let row of rows) {
         i++;
@@ -69,7 +83,8 @@ function readCsv(csv) {
         if(!iOS) {
             let dateObj = new Date(date);
             dateStr = `${getOrdinalNum(dateObj.getDate())} ${dateObj.toLocaleString('default', { month: 'long' })} ${dateObj.getFullYear()}`;
-       }
+        }
+
 
         let marker = L.marker([lat, lon],{icon:genIcon(isp,transit)}).addTo(map).bindPopup(`
         <div class="marker-inner">
@@ -91,6 +106,22 @@ function readCsv(csv) {
             markers.push(marker);
         // }
 
+        isp = isp.replace(/\"/g, '');        
+
+        if(isp.length > 1) {
+            if(averageSpeeds[isp]) {
+                averageSpeeds[isp]['down'] += parseFloat(downSpeed);
+                averageSpeeds[isp]['up'] += parseFloat(upSpeed);
+                averageSpeeds[isp]['count']++;
+            } else {
+                averageSpeeds[isp] = {};
+                averageSpeeds[isp]['down'] = parseFloat(downSpeed);
+                averageSpeeds[isp]['up'] = parseFloat(upSpeed);
+                averageSpeeds[isp]['count'] = 1;
+
+                if(transit) { averageSpeeds[isp]['transit'] = true } else { averageSpeeds[isp]['transit'] = false };
+            }
+        }
     } 
 
     // if(clustered) {
@@ -99,6 +130,34 @@ function readCsv(csv) {
         let markerGroup = new L.featureGroup(markers);
         map.fitBounds(markerGroup.getBounds());
     // }
+
+    let sortableAverage = [];
+    for(let isp in averageSpeeds) {
+        sortableAverage.push({
+            'name': isp,
+            'down': parseFloat((averageSpeeds[isp].down / averageSpeeds[isp].count) / 1000).toFixed(2),
+            'up': parseFloat((averageSpeeds[isp].up / averageSpeeds[isp].count) / 1000).toFixed(2),
+            'count': averageSpeeds[isp].count,
+            'transit': averageSpeeds[isp].transit
+        });
+    }
+
+    sortableAverage.sort(function(a, b) {
+        return a['down'] - b['down'];
+    });
+    sortableAverage.reverse();
+
+    for(let isp of sortableAverage) {
+        averageTableHTML += `
+            <tr>
+                <td><img src="${ispLogo(isp.name, true, isp.transit)}"> ${isp.name.replace('SSID: ', '').replace(/\"/g, '')} <span class="smol">${parseInt(isp.count)} tests</span></td>
+                <td class="mono right">${isp.down}</td>
+                <td class="mono right">${isp.up}</td>
+            </tr>
+        `;
+    }
+    averageTableHTML += `</tbody>`;
+    document.getElementById('js-averages').innerHTML = averageTableHTML;
 
     s('done, refresh to use a different file');
     // document.getElementById('header').style.display = 'none';

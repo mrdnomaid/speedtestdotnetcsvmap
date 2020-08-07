@@ -26,6 +26,13 @@ header {
     border-top-right-radius: 8px;
 }
 
+
+
+header h2 {
+    margin-bottom: 4px;
+    text-align: center;
+}
+
 header fieldset#radios {
     width: calc(100% - 8px);
     padding: 4px;
@@ -52,6 +59,53 @@ header input[type='file'] {
 
 header p {
     font-size: 0.8em;
+}
+
+
+header div#table-container {
+    max-height: 50vh;
+    overflow-y: scroll;
+}
+
+header table#js-averages {
+    background-color: #eee;
+    margin: 8px 0;
+    border-radius: 4px;
+}
+
+header table#js-averages thead th {
+    font-weight: 300;
+    font-size: 0.8em;
+    padding: 6px 0;
+}
+
+header table#js-averages tbody tr:nth-child(odd) {
+    background-color: #eef;
+}
+
+header table#js-averages tbody tr td {
+    padding: 2px;
+}
+
+header table#js-averages img {
+    height: 1em;
+}
+
+header table#js-averages .smol {
+    font-size: 0.6em;
+    color: #555;
+    font-weight: 400;
+}
+
+header table#js-averages .mono {
+    font-size: 1.2em;
+    font-family: 'Inconsolata', monospace;
+
+}
+
+header table#js-averages .right {
+    text-align: right;
+
 }
 
 footer {
@@ -116,3 +170,29 @@ footer a:hover {
     text-align: center;
     padding: 8px;
 } */
+
+@media screen and (max-width: 720px) {
+    header {
+        background-color: #fffa;
+        width: calc(100% - 16px);
+        border-top-left-radius: 8px;
+    }
+
+    header input[type='file'], header fieldset#radios, header table#js-averages {
+        background-color: #eeea;
+    }
+
+    header table#js-averages tbody tr:nth-child(odd) {
+        background-color: #eefa;
+    }
+
+    footer {
+        background-color: #fffa;
+    }
+}
+
+@media screen and (max-height: 720px) {
+    header div#table-container {
+        max-height: 15vh;
+    }    
+}
