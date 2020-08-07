@@ -85,17 +85,21 @@ function readCsv(csv) {
             dateStr = `${getOrdinalNum(dateObj.getDate())} ${dateObj.toLocaleString('default', { month: 'long' })} ${dateObj.getFullYear()}`;
         }
 
+        let randID = Math.floor(Math.random() * 99999999) + 1;
 
         let marker = L.marker([lat, lon],{icon:genIcon(isp,transit)}).addTo(map).bindPopup(`
-        <div class="marker-inner">
-            <h1 title="Info"><span class="smol" style="padding-left: 0; margin-bottom: 8px;">${type} &bull; ${dateStr}</span> <img src="${ispLogo(isp, true, transit)}"> ${isp.replace('SSID: ', '').replace(/\"/g, '')}</h1>
+        <div class="marker-inner" id="marker-${randID}">
+            <h1 title="Info"><span class="smol" style="padding-left: 0; margin-bottom: 8px;">${type} &bull; ${dateStr}</span> <img src="${ispLogo(isp, true, transit)}" onload="doIpInfo('${randID}', '${extIP.replace(/\"/g, '')}')"> ${isp.replace('SSID: ', '').replace(/\"/g, '')}</h1>
             <h2 title="Download Speed"><i class="fas fa-fw fa-caret-down"></i> <span class="mono">${parseFloat(downSpeed / 1000).toFixed(2)}</span>Mbps <span class="smol">${parseInt((downUsed / 1024) / 1024)}MB used</span></h2>
             <h2 title="Upload Speed"><i class="fas fa-fw fa-caret-up"></i> <span class="mono">${parseFloat(upSpeed / 1000).toFixed(2)}</span>Mbps <span class="smol">${parseInt((upUsed / 1024) / 1024)}MB used</span></h2>
             <h2 title="Latency (Ping)"><i class="fas fa-fw fa-table-tennis"></i> <span class="mono">${ping}</span>ms</h2>
             <h2 style="margin-top: 8px;" title="Server">
                 <i class="fas fa-fw fa-arrows-alt-h"></i> ${serverLoc.replace(/\"/g, '')}
                 <span class="smol">Int IP: <span class="mono">${intIP.replace(/\"/g, '')}</span></span>
-                <span class="smol">Ext IP: <span class="mono">${extIP.replace(/\"/g, '')}</span></span>
+                <span class="smol">
+                Ext IP: <span class="mono">${extIP.replace(/\"/g, '')}</span>
+                    <span id="marker-${randID}-ipinfo" class="marker-ipinfo"></span>
+                </span>
             </h2>
         </div>
         `);
