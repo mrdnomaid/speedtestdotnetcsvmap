@@ -113,6 +113,8 @@ function readCsv(csv) {
         isp = isp.replace(/\"/g, '').replace(/(Unknown|LTE|WCDMA|HSDPA|GSM|EDGE)/g, '');        
 
         if(isp.length > 1) {
+            // if(isp === 'Sky') isp = 'O2';
+
             if(averageSpeeds[isp]) {
                 averageSpeeds[isp]['down'] += parseFloat(downSpeed);
                 averageSpeeds[isp]['up'] += parseFloat(upSpeed);
@@ -152,6 +154,7 @@ function readCsv(csv) {
     sortableAverage.reverse();
 
     for(let isp of sortableAverage) {
+        iconStyle = 'app';
         averageTableHTML += `
             <tr>
                 <td><img src="${ispLogo(isp.name, true, isp.transit)}"> ${isp.name.replace('SSID: ', '').replace(/\"/g, '')} <span class="smol">${parseInt(isp.count)} tests</span></td>
@@ -159,6 +162,7 @@ function readCsv(csv) {
                 <td class="mono right">${isp.up}</td>
             </tr>
         `;
+        iconStyle = 'border';
     }
     averageTableHTML += `</tbody>`;
     document.getElementById('js-averages').innerHTML = averageTableHTML;

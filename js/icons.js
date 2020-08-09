@@ -1,3 +1,5 @@
+let iconStyle = 'border';
+
 function ispLogo(isp, black, transit) {
     let url = 'isps/mast.png';
     // let url = 'isps/mast_white.png';
@@ -5,10 +7,10 @@ function ispLogo(isp, black, transit) {
 
     isp = isp.toLowerCase();
 
-    if(isp.includes('o2') || isp.includes('telefonica') || isp.includes('tesco') || isp.includes('sky') || isp.includes('truphone')) url = 'isps/cell/o2_border.png';
-    if(isp.includes('voda') || isp.includes('voxi')) url = 'isps/cell/voda_border.png';
-    if(isp.includes('ee') || isp.includes('orange') || isp.includes('bt') || isp.includes('zevvle')) url = 'isps/cell/ee_border.png';
-    if(isp.includes('three') || isp.includes('3') || isp.includes('smarty')) url = 'isps/cell/3_border.png';
+    if(isp.includes('o2') || isp.includes('telefonica') || isp.includes('tesco') || isp.includes('sky') || isp.includes('truphone')) url = `isps/cell/o2_${iconStyle}.png`;
+    if(isp.includes('voda') || isp.includes('voxi')) url = `isps/cell/voda_${iconStyle}.png`;
+    if(isp.includes('ee') || isp.includes('orange') || isp.includes('bt') || isp.includes('zevvle')) url = `isps/cell/ee_${iconStyle}.png`;
+    if(isp.includes('three') || isp.includes('3') || isp.includes('smarty')) url = `isps/cell/3_${iconStyle}.png`;
 
     if(isp.includes('ssid')) {
         if(transit) {
