@@ -23,6 +23,7 @@ function readCsv(csv) {
                 <th>ISP &amp; Conn Type</th>
                 <th>Avg Dwn</th>
                 <th>Avg Up</th>
+                <th>Avg Ltcy</th>
             </tr>
         </thead>
         <tbody>
@@ -118,11 +119,13 @@ function readCsv(csv) {
             if(averageSpeeds[isp]) {
                 averageSpeeds[isp]['down'] += parseFloat(downSpeed);
                 averageSpeeds[isp]['up'] += parseFloat(upSpeed);
+                averageSpeeds[isp]['ping'] += parseInt(ping);
                 averageSpeeds[isp]['count']++;
             } else {
                 averageSpeeds[isp] = {};
                 averageSpeeds[isp]['down'] = parseFloat(downSpeed);
                 averageSpeeds[isp]['up'] = parseFloat(upSpeed);
+                averageSpeeds[isp]['ping'] = parseInt(ping);
                 averageSpeeds[isp]['count'] = 1;
 
                 if(transit) { averageSpeeds[isp]['transit'] = true } else { averageSpeeds[isp]['transit'] = false };
@@ -143,6 +146,7 @@ function readCsv(csv) {
             'name': isp,
             'down': parseFloat((averageSpeeds[isp].down / averageSpeeds[isp].count) / 1000).toFixed(2),
             'up': parseFloat((averageSpeeds[isp].up / averageSpeeds[isp].count) / 1000).toFixed(2),
+            'ping': parseInt((averageSpeeds[isp].ping / averageSpeeds[isp].count)).toFixed(0),
             'count': averageSpeeds[isp].count,
             'transit': averageSpeeds[isp].transit
         });
@@ -160,6 +164,7 @@ function readCsv(csv) {
                 <td><img src="${ispLogo(isp.name, true, isp.transit)}"> ${isp.name.replace('SSID: ', '').replace(/\"/g, '')} <span class="smol">${parseInt(isp.count)} tests</span></td>
                 <td class="mono right">${isp.down}</td>
                 <td class="mono right">${isp.up}</td>
+                <td class="mono right">${isp.ping}ms</td>
             </tr>
         `;
         iconStyle = 'border';
