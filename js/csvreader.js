@@ -30,6 +30,7 @@ function readCsv(csv) {
     `;
 
     let i = -1;
+	//let j = 0;
     for(let row of rows) {
         i++;
         if(i == 0) continue;
@@ -50,7 +51,8 @@ function readCsv(csv) {
         let serverLoc = cols[10];
         let intIP = cols[11];
         let extIP = cols[12];
-
+	
+		//console.log(`${extIP} ${lat} ${lon}`);
         if(!lat || !lon) continue;
 
         let transit = false;
@@ -78,12 +80,23 @@ function readCsv(csv) {
                 type = 'On-Vehicle Wi-Fi';
             }
         }
-        
+		
+		if(date.includes('/')) {
+			let dateBefore = date;
+			// AMERICAN FORMAT:
+			//date = `${date.charAt(3)}${date.charAt(4)}-${date.charAt(0)}${date.charAt(1)}-${date.substr(6)}`;
+			// EVERYWHERE ELSE FORMAT:
+			date = date.replace(/\//g, '');
+			        // YEAR                                                              // MONTH                           // DAY                             // TIME
+			date = `${date.charAt(4)}${date.charAt(5)}${date.charAt(6)}${date.charAt(7)}-${date.charAt(2)}${date.charAt(3)}-${date.charAt(0)}${date.charAt(1)} ${date.substr(9)}`;
+			console.log(`${dateBefore} --> ${date}`);
+		}
+		
         // ios safari is a sped
         let dateStr = date;
         if(!iOS) {
             let dateObj = new Date(date);
-            dateStr = `${getOrdinalNum(dateObj.getDate())} ${dateObj.toLocaleString('default', { month: 'long' })} ${dateObj.getFullYear()}`;
+            dateStr = `${getOrdinalNum(dateObj.getDate())} ${dateObj.toLocaleString('default', { month: 'long' })} ${dateObj.getFullYear()} ${dateObj.getHours()}:` + (`0${dateObj.getMinutes()}`).slice(-2);
         }
 
         let randID = Math.floor(Math.random() * 99999999) + 1;
@@ -110,6 +123,9 @@ function readCsv(csv) {
         // } else {
             markers.push(marker);
         // }
+		
+		//j++;
+		//console.log(`gone thru ${i}, added ${j}`);
 
         isp = isp.replace(/\"/g, '').replace(/(Unknown|LTE|WCDMA|HSDPA|GSM|EDGE)/g, '');        
 
