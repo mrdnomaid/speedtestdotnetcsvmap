@@ -32,7 +32,7 @@
 
             
             <fieldset id="fileinput" autocomplete="off">
-                <input type="file" onchange="loadFile(this); this.style.display = 'none';" accept="text/csv" multiple="no" autocomplete="off"><br>
+                <input type="file" onchange="loadFile(this); this.parentElement.style.display = 'none';" accept="text/csv" multiple="no" autocomplete="off"><br>
                 <label><input type="checkbox" onchange="androidFile = this.checked" onload="this.checked = false;" autocomplete="off"> Android File</label>
                 <label><input type="checkbox" onchange="dumbDates = this.checked" onload="this.checked = false;" autocomplete="off"> American Dates</label>
             </fieldset>
