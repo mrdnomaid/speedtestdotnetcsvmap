@@ -29,6 +29,14 @@ function readCsv(csv) {
         <tbody>
     `;
 
+    if(androidFile) {
+        alert('Android-generated files don\'t work very well, sorry. Ironically they contain less information than those exported on iOS.');
+    }
+
+    if(dumbDates) {
+        alert('Your date format is bad, some things might be a bit broken since I don\'t care to fix the problems it causes.');
+    }
+
     let i = -1;
 	//let j = 0;
     for(let row of rows) {
@@ -51,12 +59,28 @@ function readCsv(csv) {
         let serverLoc = cols[10];
         let intIP = cols[11];
         let extIP = cols[12];
+
+        if(androidFile) {
+            date = `${cols[0]} ${cols[1]}`; // why the fuck does it put a comma in this
+            type = cols[2];
+            isp = 'Android'; // android exports do not include this for some reason
+            lat = cols[3];
+            lon = cols[4];
+            downSpeed = cols[5];
+            downUsed = cols[6];
+            upSpeed = cols[7];
+            upUsed = cols[8];
+            ping = cols[9];
+            serverLoc = cols[10];
+            intIP = cols[11];
+            extIP = cols[12];
+        }
 	
 		//console.log(`${extIP} ${lat} ${lon}`);
         if(!lat || !lon) continue;
 
         let transit = false;
-        if(isp.toLowerCase().includes('ssid')) {
+        if(isp.toLowerCase().includes('ssid') || isp.toLowerCase().includes('Wifi')) {
             let ispLowerCase = isp.toLowerCase();
             if(
                 ispLowerCase.includes('train')
@@ -83,20 +107,21 @@ function readCsv(csv) {
 		
 		if(date.includes('/')) {
 			let dateBefore = date;
-			// AMERICAN FORMAT:
-			//date = `${date.charAt(3)}${date.charAt(4)}-${date.charAt(0)}${date.charAt(1)}-${date.substr(6)}`;
-			// EVERYWHERE ELSE FORMAT:
-			date = date.replace(/\//g, '');
-			        // YEAR                                                              // MONTH                           // DAY                             // TIME
-			date = `${date.charAt(4)}${date.charAt(5)}${date.charAt(6)}${date.charAt(7)}-${date.charAt(2)}${date.charAt(3)}-${date.charAt(0)}${date.charAt(1)} ${date.substr(9)}`;
-			console.log(`${dateBefore} --> ${date}`);
+            if(!dumbDates) {
+			    date = date.replace(/\//g, '');
+			          // YEAR                                                              // MONTH                           // DAY                             // TIME
+			    date = `${date.charAt(4)}${date.charAt(5)}${date.charAt(6)}${date.charAt(7)}-${date.charAt(2)}${date.charAt(3)}-${date.charAt(0)}${date.charAt(1)} ${date.substr(9)}`;
+            }
+            // console.log(`${dateBefore} --> ${date}`);
 		}
 		
         // ios safari is a sped
         let dateStr = date;
-        if(!iOS) {
-            let dateObj = new Date(date);
-            dateStr = `${getOrdinalNum(dateObj.getDate())} ${dateObj.toLocaleString('default', { month: 'long' })} ${dateObj.getFullYear()} ${dateObj.getHours()}:` + (`0${dateObj.getMinutes()}`).slice(-2);
+        if(!dumbDates) {
+            if(!iOS) {
+                let dateObj = new Date(date);
+                dateStr = `${getOrdinalNum(dateObj.getDate())} ${dateObj.toLocaleString('default', { month: 'long' })} ${dateObj.getFullYear()} ${dateObj.getHours()}:` + (`0${dateObj.getMinutes()}`).slice(-2);
+            }
         }
 
         let randID = Math.floor(Math.random() * 99999999) + 1;

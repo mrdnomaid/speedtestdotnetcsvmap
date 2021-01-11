@@ -27,14 +27,14 @@ header {
 }
 
 
-
 header h2 {
     margin-bottom: 4px;
     text-align: center;
 }
 
-header fieldset#radios {
+header fieldset {
     width: calc(100% - 8px);
+    margin-bottom: 4px;
     padding: 4px;
     background-color: #eee;
     border: none;
@@ -48,11 +48,6 @@ header fieldset#radios label {
 }
 
 header input[type='file'] {
-    width: 100%;
-    margin: 4px 0;
-    padding: 4px;
-    background-color: #eee;
-    border-radius: 4px;
     font-family: inherit;
     text-align: center;
 }
