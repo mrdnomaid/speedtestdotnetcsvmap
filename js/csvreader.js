@@ -66,9 +66,9 @@ function readCsv(csv) {
             isp = 'Android'; // android exports do not include this for some reason
             lat = cols[3];
             lon = cols[4];
-            downSpeed = cols[5];
+            downSpeed = cols[5]*1000;
             downUsed = cols[6];
-            upSpeed = cols[7];
+            upSpeed = cols[7]*1000;
             upUsed = cols[8];
             ping = cols[9];
             serverLoc = cols[10];
